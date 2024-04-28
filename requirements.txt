@@ -1,0 +1,12 @@
+keras-nlp
+keras
+transformers
+sentence-transformers
+qpt4all
+pymystem3
+pandas
+yake
+python-docx
+asyncio
+aiogram
+nltk
