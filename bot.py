@@ -1,5 +1,6 @@
 #This bot can be found at @Preview_Hack2024_bot 
-#We will host this bot until the presentation
+#Do not run this file to avoid duplication unless the bot doesn't respond in telegram
+#In this case please do run the file
 
 import asyncio
 import logging
