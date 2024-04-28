@@ -137,20 +137,39 @@ def pipeline(question=None, lesson=None, user_input=None, pos=None):
     if is_correct == True:
         return 1
 
+def csv_pipeline():
+    start_time = time.time()
+    total_batch = 0
+    correct_in_batch = 0
+    df = pd.read_csv("test_data.csv", header=0, usecols=["Question", "Lesson", "Answer", "hash"])
+    print(df.shape[0])
+    submission = []
+    for i in range(df.shape[0]):
+        question = df["Question"][i]
+        lesson = df["Lesson"][i]
+        answer = df["Answer"][i]
+        hash = df["hash"][i]
+        print(f"{question} - {lesson} - {answer} - {hash}")
+        correctness = pipeline(question=question, lesson=lesson, user_input=answer)
+        dictionary = {"hash": hash, "Correctness": correctness}
+        submission.append(dictionary)
 
+    print(submission)
 
-"""
-start_time = time.time()
-total_batch = 0
-correct_in_batch = 0
+    fields = ['hash', 'Correctness']
+    
+    # name of csv file
+    filename = "submission.csv"
+    
+    # writing to csv file
+    with open(filename, 'w') as csvfile:
+        # creating a csv dict writer object
+        writer = csv.DictWriter(csvfile, fieldnames=fields)
+    
+        # writing headers (field names)
+        writer.writeheader()
+    
+        # writing data rows
+        writer.writerows(submission)
 
-for i in range(1, 226):
-    total_batch += 1
-    pipeline(pos=i)
-
-print(f"Total rows - {total_batch}")
-print(f"Correct rows - {correct_in_batch}")
-print(correct_in_batch/total_batch)
-
-print("Execution time - %s seconds" % (time.time() - start_time))
-"""
+    print("Execution time - %s seconds" % (time.time() - start_time))
