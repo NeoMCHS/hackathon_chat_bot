@@ -66,8 +66,9 @@ def gen_ans_bert(question, text):
     print(res)
     return res
 
-def pipeline(question=None, lesson=None, user_input=None, pos=None):
-    df = pd.read_csv('train_data.csv', header=0, usecols=["Question", "Lesson", "Answer", "Correctness"])
+def pipeline(question=None, lesson=None, user_input=None, pos=None, csv_file=None):
+    if not csv_file == None:
+        df = pd.read_csv(csv_file, header=0, usecols=["Question", "Lesson", "Answer", "Correctness"])
 
     is_correct = False
     if question == None or lesson == None:
@@ -97,7 +98,7 @@ def pipeline(question=None, lesson=None, user_input=None, pos=None):
         answer_candidates.append(answer)
     for answer_candidate in answer_candidates:  
         print(list(answer_candidate.values())[0])
-        if list(answer_candidate.values())[0] < 0.4:
+        if list(answer_candidate.values())[0] < 0.1:
             answer_candidates.remove(answer_candidate)
     if answer_candidates == []:    
         candidate = get_full_txt(directory=directory, file=file)
@@ -126,10 +127,6 @@ def pipeline(question=None, lesson=None, user_input=None, pos=None):
     for similarity in similarities: 
         if similarity > 0.09:
             is_correct = True
-
-    #print(f"-------------*Question {pos+2}*-------------")
-    #print(f"Is correct? - {is_correct}; Original data - {df['Correctness'][pos]}")
-    #print("----------------------------------------")
 
     if is_correct == False: 
         return 0
