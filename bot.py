@@ -1,3 +1,6 @@
+#This bot can be found at @Preview_Hack2024_bot 
+#We will host this bot until the presentation
+
 import asyncio
 import logging
 import sys
